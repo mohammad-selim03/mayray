@@ -3,13 +3,7 @@
 import Image from "next/image";
 import { MapPin, Phone, Mail, Move } from "lucide-react";
 import { AnimateIn } from "@/components/ui/AnimateIn";
-
-const EMAILS = [
-  "info@domain.com (General)",
-  "sales@domain.com (Sales)",
-  "investors@domain.com (Investors)",
-  "hr@domain.com (HR / Careers)",
-];
+import type { ContactOfficeContent } from "@/lib/cms/schema/documents/pages/contact";
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 16 16" width="16" height="16" fill="#25d366" aria-hidden="true" className="shrink-0">
@@ -17,20 +11,20 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-export const ContactOffice = () => (
+export const ContactOffice = ({ content }: { content: ContactOfficeContent }) => (
   <div className="grid gap-[30px] lg:grid-cols-2 lg:items-center">
     <AnimateIn className="h-full">
       <div className="h-full rounded-[16px] bg-white px-6 pb-8 pt-[31px] lg:h-[411px]">
         <h2 className="text-[26px] font-semibold leading-[38.4px] text-[#18181b] sm:text-[32px]">
-          Head Office
+          {content.title}
         </h2>
 
         <div className="mt-[19px] flex flex-col gap-7">
           <div className="flex gap-3">
             <MapPin size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#3f3f46]" />
             <div className="flex flex-col gap-1">
-              <p className="text-[17px] font-bold leading-[20.6px] text-[#3f3f46]">Mayray AI</p>
-              <p className="text-[17px] leading-[27.2px] text-[#70707b]">C-49, Industrial Area, Naini,</p>
+              <p className="text-[17px] font-bold leading-[20.6px] text-[#3f3f46]">{content.company}</p>
+              <p className="text-[17px] leading-[27.2px] text-[#70707b] whitespace-pre-line">{content.address}</p>
             </div>
           </div>
 
@@ -38,29 +32,31 @@ export const ContactOffice = () => (
             <Phone size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#3f3f46]" />
             <div className="flex flex-col gap-4 sm:flex-row sm:gap-[25px]">
               <div className="flex flex-col gap-2">
-                <p className="text-[17px] leading-[20.6px] text-[#3f3f46]">+01 XXXXX XXXXX</p>
-                <p className="text-[15px] leading-[18.2px] text-[#a0a0ab]">Mon - Sat, 9:00 AM - 6:00 PM</p>
+                <p className="text-[17px] leading-[20.6px] text-[#3f3f46]">{content.phone}</p>
+                <p className="text-[15px] leading-[18.2px] text-[#a0a0ab]">{content.hours}</p>
               </div>
+              {content.whatsapp.label && (
               <div className="pl-4 sm:border-l sm:border-[#d1d1d6]">
                 <a
-                  href="https://wa.me/"
+                  href={content.whatsapp.href || "https://wa.me/"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 font-jakarta text-[15px] font-semibold leading-6 text-[#25d366] hover:underline"
                 >
                   <WhatsAppIcon />
-                  WhatsApp
+                  {content.whatsapp.label}
                 </a>
-                <p className="text-[12px] leading-6 text-[#a0a0ab]">Or reach us directly on</p>
+                <p className="text-[12px] leading-6 text-[#a0a0ab]">{content.whatsappNote}</p>
               </div>
+              )}
             </div>
           </div>
 
           <div className="flex gap-3">
             <Mail size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#3f3f46]" />
             <div className="flex flex-col gap-2">
-              {EMAILS.map((e) => (
-                <p key={e} className="font-jakarta text-[16px] leading-[22.7px] text-[#3f3f46] sm:text-[18px]">
+              {content.emails.map(({ text: e }, i) => (
+                <p key={i} className="font-jakarta text-[16px] leading-[22.7px] text-[#3f3f46] sm:text-[18px]">
                   {e}
                 </p>
               ))}
@@ -73,8 +69,9 @@ export const ContactOffice = () => (
     <AnimateIn delay={0.1} className="h-full">
       <div className="relative h-[280px] overflow-hidden rounded-[16px] sm:h-[340px] lg:h-[411px]">
         <Image
-          src="/contact/office-map.jpg"
-          alt="Map showing the Mayray AI head office location"
+          src={content.map?.url ?? "/contact/office-map.jpg"}
+          alt={content.map?.alt ?? ""}
+          unoptimized={content.map?.url.endsWith(".svg")}
           fill
           sizes="(max-width: 1024px) 100vw, 570px"
           className="object-cover"

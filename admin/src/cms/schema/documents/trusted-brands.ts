@@ -1,4 +1,4 @@
-// GENERATED FILE: edit frontend/lib/cms/schema and run `pnpm cms:sync`.
+// GENERATED FILE: edit frontend/lib/cms and run `pnpm cms:sync`.
 
 import { color, defineDocument, icon, image, list, section, select, text } from "../fields";
 

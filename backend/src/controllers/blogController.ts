@@ -140,7 +140,11 @@ export const getBySlug = async (req: Request, res: Response, next: NextFunction)
 
 export const trackView = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    await prisma.blog.update({ where: { id: req.params.id }, data: { views: { increment: 1 } } });
+    const { count } = await prisma.blog.updateMany({ where: { id: req.params.id }, data: { views: { increment: 1 } } });
+    if (count === 0) {
+      res.status(404).json({ success: false, message: "Post not found" });
+      return;
+    }
     res.json({ success: true });
   } catch (err) {
     next(err);

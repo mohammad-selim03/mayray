@@ -19,11 +19,6 @@ const titleMap: Record<string, string> = {
   "/health-checks": "Health Checks",
   "/users": "Users",
   "/industry-roi": "Industry ROI",
-  "/pages/blog": "Blog Page CMS",
-  "/pages/blog_detail": "Blog Detail CMS",
-  "/pages/not_found": "404 Page CMS",
-  "/pages/privacy": "Privacy Policy CMS",
-  "/pages/terms": "Terms CMS",
 };
 
 export default function Layout() {

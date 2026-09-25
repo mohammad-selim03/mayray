@@ -1,4 +1,4 @@
-// GENERATED FILE: edit frontend/lib/cms/schema and run `pnpm cms:sync`.
+// GENERATED FILE: edit frontend/lib/cms and run `pnpm cms:sync`.
 
 // Defaults are the page's live copy at the time it moved into the CMS (Site Settings, the old
 // page editor and the FAQ collection), so switching over changed nothing on the site.

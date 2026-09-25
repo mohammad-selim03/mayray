@@ -70,10 +70,6 @@ export interface HealthCheckResult {
   message: string;
 }
 
-export interface ApiSettings {
-  [key: string]: string;
-}
-
 export interface ApiScalingStep {
   id: string;
   step: string;
@@ -96,16 +92,6 @@ export interface ApiIndustryROI {
   showUp: string;
   image: string | null;
   useCases: string[];
-  isActive: boolean;
-  order: number;
-}
-
-export interface ApiPageContent {
-  id: string;
-  page: string;
-  section: string;
-  key: string;
-  value: string;
   isActive: boolean;
   order: number;
 }
@@ -225,13 +211,6 @@ export const api = {
   industryROI: {
     list: () =>
       apiFetch<{ success: boolean; items: ApiIndustryROI[] }>("/industry-roi").then(
-        (d) => d.items
-      ),
-  },
-
-  pageContent: {
-    getByPage: (page: string) =>
-      apiFetch<{ success: boolean; items: ApiPageContent[] }>(`/page-content/${page}`).then(
         (d) => d.items
       ),
   },

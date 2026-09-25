@@ -11,8 +11,9 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "seed": "ts-node src/utils/seeder.ts",
-    "storage:setup": "ts-node scripts/setup-storage.ts"
+    "seed": "ts-node src/seed/index.ts",
+    "storage:setup": "ts-node scripts/setup-storage.ts",
+    "content:snapshot": "ts-node scripts/snapshot-content.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.16.0",
@@ -50,5 +51,8 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.2"
+  },
+  "prisma": {
+    "seed": "ts-node src/seed/index.ts"
   }
 }

@@ -29,7 +29,7 @@ export default function BlogEditor() {
     enabled: isEdit,
   });
 
-  const { register, handleSubmit, reset, setValue, watch, control, formState: { errors } } = useForm<BlogFormData>({
+  const { register, handleSubmit, reset, watch, control, formState: { errors } } = useForm<BlogFormData>({
     defaultValues: { status: "draft", category: "AI Automation", readTime: "5 min read" },
   });
 

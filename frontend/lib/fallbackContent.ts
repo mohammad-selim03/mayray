@@ -1,10 +1,10 @@
 // What the site shows when the API can't be reached or a collection is empty: the snapshot in
-// lib/cms/fixtures (the same data `npm run seed` writes into an empty database).
+// lib/cms/fixtures (the same data `npm run seed` writes into an empty database). CMS pages and
+// blocks fall back to their design defaults instead (lib/cms/getCmsDocument).
 // Server-only: blog posts include their full bodies.
 import type { ApiBlogPost, ApiFeature, ApiIndustryROI, ApiIntegration, ApiScalingStep, ApiTestimonial, ApiUseCase } from "./api";
 import { BLOG_POSTS } from "./cms/fixtures/blog-posts";
 import { FEATURES, INDUSTRY_ROI, INTEGRATIONS, SCALING_STEPS, TESTIMONIALS, USE_CASES } from "./cms/fixtures/collections";
-import { PAGE_CONTENT } from "./cms/fixtures/page-content";
 import type { BlogPostFixture } from "./cms/fixtures/types";
 
 const active = <T extends { isActive: boolean; order: number }>(rows: T[]) => rows.filter((r) => r.isActive).sort((a, b) => a.order - b.order);
@@ -53,12 +53,3 @@ export const fallbackBlogPost = (slug: string): ApiBlogPost | null => {
   return post ? toApiPost(post, true) : null;
 };
 
-/** The old page editor's fields for `page`, grouped by section. */
-export function fallbackPageContent(page: string): Record<string, Record<string, string>> {
-  const result: Record<string, Record<string, string>> = {};
-  for (const row of PAGE_CONTENT) {
-    if (row.page !== page) continue;
-    (result[row.section] ??= {})[row.key] = row.value;
-  }
-  return result;
-}

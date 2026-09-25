@@ -11,14 +11,18 @@ class VersionConflict extends Error {}
 
 const notFound = (res: Response) => res.status(404).json({ success: false, message: "Unknown content document" });
 
-async function publish(
+/**
+ * Stores `data` as the document's next version (and in its history). With `expectedVersion`, fails with
+ * VersionConflict if someone else published in between. `userId` is null for the seed script.
+ */
+export function writeDocumentVersion(
   def: DocumentDef,
   data: DocumentData,
   expectedVersion: number | null,
-  userId: string,
+  userId: string | null,
   restoredFrom?: number
 ) {
-  const saved = await prisma.$transaction(async (tx) => {
+  return prisma.$transaction(async (tx) => {
     const current = await tx.cmsDocument.findUnique({ where: { key: def.key }, select: { version: true } });
     const currentVersion = current?.version ?? 0;
     if (expectedVersion !== null && expectedVersion !== currentVersion) throw new VersionConflict();
@@ -39,7 +43,16 @@ async function publish(
     });
     return tx.cmsDocument.findUniqueOrThrow({ where: { key: def.key } });
   });
+}
 
+async function publish(
+  def: DocumentDef,
+  data: DocumentData,
+  expectedVersion: number | null,
+  userId: string,
+  restoredFrom?: number
+) {
+  const saved = await writeDocumentVersion(def, data, expectedVersion, userId, restoredFrom);
   const revalidated = await revalidateFrontend([cacheTag(def.key)]);
   return { key: saved.key, data: saved.data, version: saved.version, updatedAt: saved.updatedAt, revalidated };
 }

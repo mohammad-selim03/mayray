@@ -5,7 +5,7 @@ export const getAll = async (req: Request, res: Response, next: NextFunction): P
   try {
     const where: Record<string, unknown> = req.headers.authorization ? {} : { isActive: true };
     if (req.query.category) where.category = req.query.category;
-    const items = await prisma.useCase.findMany({ where, orderBy: { order: "asc" } });
+    const items = await prisma.useCase.findMany({ where, orderBy: [{ order: "asc" }, { createdAt: "desc" }] });
     res.json({ success: true, useCases: items });
   } catch (err) {
     next(err);

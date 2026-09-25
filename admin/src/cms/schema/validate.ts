@@ -1,4 +1,4 @@
-// GENERATED FILE: edit frontend/lib/cms/schema and run `pnpm cms:sync`.
+// GENERATED FILE: edit frontend/lib/cms and run `pnpm cms:sync`.
 
 import type { DocumentData, DocumentDef, Field, ValidationIssue } from "./types";
 import { isIconName } from "./icons";

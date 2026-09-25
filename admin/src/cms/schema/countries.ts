@@ -1,4 +1,4 @@
-// GENERATED FILE: edit frontend/lib/cms/schema and run `pnpm cms:sync`.
+// GENERATED FILE: edit frontend/lib/cms and run `pnpm cms:sync`.
 
 // Countries that flagcdn.com has a flag for (two-letter codes), used by flag pickers.
 export const COUNTRIES = [

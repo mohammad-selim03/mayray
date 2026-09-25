@@ -1,4 +1,4 @@
-// GENERATED FILE: edit frontend/lib/cms/schema and run `pnpm cms:sync`.
+// GENERATED FILE: edit frontend/lib/cms and run `pnpm cms:sync`.
 
 import type { DocumentDef, InferDocument } from "./types";
 import { ctaBanner } from "./documents/cta-banner";
@@ -14,6 +14,12 @@ import { insurancePage } from "./documents/pages/insurance";
 import { automotivePage } from "./documents/pages/automotive";
 import { ecommercePage } from "./documents/pages/ecommerce";
 import { homePage } from "./documents/pages/home";
+import { pricingPage } from "./documents/pages/pricing";
+import { contactPage } from "./documents/pages/contact";
+import { blogPage } from "./documents/pages/blog";
+import { privacyPage } from "./documents/pages/privacy";
+import { termsPage } from "./documents/pages/terms";
+import { notFoundPage } from "./documents/pages/not-found";
 
 export const REGISTRY = {
   home: homePage,
@@ -24,6 +30,12 @@ export const REGISTRY = {
   "insurance": insurancePage,
   "automotive": automotivePage,
   "ecommerce": ecommercePage,
+  pricing: pricingPage,
+  contact: contactPage,
+  blog: blogPage,
+  privacy: privacyPage,
+  terms: termsPage,
+  "not-found": notFoundPage,
   navbar,
   footer,
   "cta-banner": ctaBanner,

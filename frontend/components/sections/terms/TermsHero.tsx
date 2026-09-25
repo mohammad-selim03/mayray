@@ -3,12 +3,10 @@
 import React from "react";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { Scale, Calendar, FileCheck } from "lucide-react";
-import { usePageField } from "@/lib/PageContentContext";
+import type { LegalHeroContent } from "@/lib/cms/schema/blocks/legal";
 
-export const TermsHero = () => {
-  const badge = usePageField("hero", "badge", "Legal Service Agreement & Enterprise Terms");
-  const headline = usePageField("hero", "headline", "Terms & Conditions");
-  const subheadline = usePageField("hero", "subheadline", "Please read these terms carefully before deploying Mayray AI autonomous agents, telephony pipelines, or API integrations across your enterprise workflows.");
+export const TermsHero = ({ content }: { content: LegalHeroContent }) => {
+  const { badge, title: headline, subtitle: subheadline, updated, effective } = content;
 
   return (
     <section className="relative overflow-hidden bg-white pt-12 pb-16 text-white">
@@ -43,11 +41,11 @@ export const TermsHero = () => {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs text-gray-400">
             <span className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 font-medium">
               <Calendar className="h-3.5 w-3.5 text-cyan-400" />
-              Last Updated: September 6, 2026
+              {updated}
             </span>
             <span className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 font-medium">
               <FileCheck className="h-3.5 w-3.5 text-emerald-400" />
-              Effective Immediately Upon Account Activation
+              {effective}
             </span>
           </div>
         </AnimateIn>

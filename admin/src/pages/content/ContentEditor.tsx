@@ -97,8 +97,13 @@ function HistoryModal({ def, open, current, dirty, onClose, onRestored }: {
   );
 }
 
+/** One editor instance per document, so switching pages from the sidebar never mixes their content. */
 export default function ContentEditor() {
   const { key = "" } = useParams();
+  return <DocumentEditor key={key} docKey={key} />;
+}
+
+function DocumentEditor({ docKey: key }: { docKey: string }) {
   const def = getDocumentDef(key);
   const qc = useQueryClient();
   const { setDirty } = useUnsavedChanges();
@@ -152,7 +157,7 @@ export default function ContentEditor() {
       qc.setQueryData(["cms-document", key], doc);
       qc.invalidateQueries({ queryKey: ["cms-documents"] });
       qc.invalidateQueries({ queryKey: ["cms-versions", key] });
-      toast.success(doc.revalidated ? "Published. The site updates in a few seconds." : "Published. The site will show it within 5 minutes.");
+      toast.success(doc.revalidated ? "Published. The site updates in a few seconds." : "Published. The site is still refreshing and will show it in a minute or two.");
     },
     onError: (err) => {
       const issues = validationIssues(err);

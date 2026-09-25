@@ -1,34 +1,27 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
-import { TermsHero } from "@/components/sections/terms/TermsHero";
-import { TermsContent } from "@/components/sections/terms/TermsContent";
-import { TermsContactCard } from "@/components/sections/terms/TermsContactCard";
 import { Footer } from "@/components/layout/Footer";
-import { SiteDataProvider, EMPTY_SITE_DATA } from "@/lib/SiteDataContext";
-import { getPageMetadata } from "@/lib/getPageMetadata";
-import { getPageContent } from "@/lib/getPageContent";
-import { PageContentProvider } from "@/lib/PageContentContext";
+import { TermsHero } from "@/components/sections/terms/TermsHero";
+import { TermsContactCard } from "@/components/sections/terms/TermsContactCard";
+import { LegalContent } from "@/components/sections/legal/LegalContent";
+import { getCmsDocument } from "@/lib/cms/getCmsDocument";
+import { getCmsPageMetadata } from "@/lib/cms/getCmsPageMetadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return getPageMetadata("terms");
+  return getCmsPageMetadata("terms");
 }
 
 export default async function TermsPage() {
-  const pageContent = await getPageContent("terms");
-
+  const content = await getCmsDocument("terms");
   return (
     <main className="min-h-screen bg-white text-[#1c1917]">
-      <SiteDataProvider value={EMPTY_SITE_DATA}>
-        <PageContentProvider value={pageContent}>
-          <div>
-            <Navbar />
-            <TermsHero />
-            <TermsContent />
-            <TermsContactCard />
-            <Footer />
-          </div>
-        </PageContentProvider>
-      </SiteDataProvider>
+      <div>
+        <Navbar />
+        <TermsHero content={content.hero} />
+        <LegalContent content={content.content} theme="dark" />
+        <TermsContactCard content={content.contact} />
+        <Footer />
+      </div>
     </main>
   );
 }

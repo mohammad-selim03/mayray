@@ -3,7 +3,7 @@ import prisma from "../config/prisma";
 
 export const getAll = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const items = await prisma.scalingStep.findMany({ orderBy: [{ isCard: "asc" }, { order: "asc" }] });
+    const items = await prisma.scalingStep.findMany({ orderBy: [{ isCard: "asc" }, { order: "asc" }, { createdAt: "desc" }] });
     res.json({ success: true, items });
   } catch {
     res.status(500).json({ success: false, message: "Server error" });

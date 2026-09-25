@@ -21,7 +21,7 @@ export type SiteData = {
   blog: ApiBlogPost[];
 };
 
-export const EMPTY_SITE_DATA: SiteData = {
+const EMPTY_SITE_DATA: SiteData = {
   features: [],
   integrations: [],
   useCases: [],

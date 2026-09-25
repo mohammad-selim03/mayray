@@ -90,11 +90,3 @@ export interface BlogPostFixture {
   createdAt: string;
 }
 
-/** A field on a page that is still edited in the old page editor (until it moves into the CMS). */
-export interface PageContentFixture {
-  page: string;
-  section: string;
-  key: string;
-  value: string;
-  order: number;
-}

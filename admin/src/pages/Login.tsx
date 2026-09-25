@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 import { Activity } from "lucide-react";
 
 export default function Login() {
-  const [email, setEmail] = useState("admin@mayray.com");
-  const [password, setPassword] = useState("Admin@123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -42,11 +42,11 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="label">Email</label>
-            <input type="email" className="input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="admin@mayray.com" required />
+            <input type="email" className="input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" autoComplete="username" required />
           </div>
           <div>
             <label className="label">Password</label>
-            <input type="password" className="input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
+            <input type="password" className="input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" autoComplete="current-password" required />
           </div>
           <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-2.5 mt-2">
             {loading ? "Signing in..." : "Sign in"}

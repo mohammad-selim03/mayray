@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.supabase.co" },
     ],
   },
+  // One Terms page to maintain; the old address keeps working.
+  async redirects() {
+    return [{ source: "/terms-and-conditions", destination: "/terms", permanent: true }];
+  },
   // Tree-shake heavy barrel imports (lucide-react is optimized by default).
   experimental: {
     optimizePackageImports: ["framer-motion"],

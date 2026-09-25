@@ -10,22 +10,21 @@ const normalizeCategory = (value: string) => value.toLowerCase().replace(/[^a-z]
 interface BlogListClientProps {
   posts: BlogPostItem[];
   featuredPost: BlogPostItem | null;
+  /** The tab that shows every post. */
+  allLabel: string;
   categories: string[];
+  emptyText: string;
 }
 
-export const BlogListClient: React.FC<BlogListClientProps> = ({
-  posts,
-  featuredPost,
-  categories,
-}) => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+export const BlogListClient: React.FC<BlogListClientProps> = ({ posts, featuredPost, allLabel, categories, emptyText }) => {
+  const [selectedCategory, setSelectedCategory] = useState(allLabel);
 
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
-      if (selectedCategory === "All") return true;
+      if (selectedCategory === allLabel) return true;
       return normalizeCategory(post.category) === normalizeCategory(selectedCategory);
     });
-  }, [posts, selectedCategory]);
+  }, [posts, selectedCategory, allLabel]);
 
   return (
     <div className="relative">
@@ -33,9 +32,9 @@ export const BlogListClient: React.FC<BlogListClientProps> = ({
         featuredPost={featuredPost}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        categories={categories}
+        categories={[allLabel, ...categories]}
       />
-      <BlogGrid posts={filteredPosts} />
+      <BlogGrid posts={filteredPosts} emptyText={emptyText} />
     </div>
   );
 };

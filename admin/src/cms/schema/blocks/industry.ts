@@ -1,4 +1,4 @@
-// GENERATED FILE: edit frontend/lib/cms/schema and run `pnpm cms:sync`.
+// GENERATED FILE: edit frontend/lib/cms and run `pnpm cms:sync`.
 
 // Content blocks shared by the industry landing pages. Each builder takes the page's current copy as defaults.
 import { color, icon, image, link, list, section, select, text } from "../fields";

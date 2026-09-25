@@ -5,29 +5,7 @@ import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { AnimateIn } from "../ui/AnimateIn";
-
-const FAQS = [
-  {
-    q: "What is included in the free trial?",
-    a: "You get full access to all Plus plan features for 7 days. No credit card required. Cancel anytime before the trial ends and you won't be charged.",
-  },
-  {
-    q: "Can I switch plans later?",
-    a: "Yes, you can upgrade or downgrade your plan at any time from your account settings. Changes take effect immediately and billing is adjusted pro-rata.",
-  },
-  {
-    q: "What happens after the free trial?",
-    a: "After 7 days, you'll be automatically enrolled in your selected plan. You can cancel before the trial ends to avoid any charges.",
-  },
-  {
-    q: "Do you offer refunds?",
-    a: "We offer a full refund within the first 30 days of any paid subscription. Contact our support team and we'll process it promptly.",
-  },
-  {
-    q: "Is my data secure?",
-    a: "Absolutely. We use enterprise-grade encryption, SOC 2 compliance, and HIPAA-ready infrastructure to keep your data safe and private.",
-  },
-];
+import type { FaqContent } from "../../lib/cms/schema/blocks/industry";
 
 const FAQItem = ({
   number,
@@ -89,7 +67,8 @@ const FAQItem = ({
   </div>
 );
 
-export const PricingFAQ = () => {
+export const PricingFAQ = ({ content }: { content: FaqContent }) => {
+  const FAQS = content.items;
   const [openIndex, setOpenIndex] = useState<number | null>(1);
 
   const left = FAQS.slice(0, Math.ceil(FAQS.length / 2));
@@ -99,7 +78,7 @@ export const PricingFAQ = () => {
     <section className="mx-auto w-full max-w-[1170px] px-4 py-20 sm:px-6 lg:px-0">
       <AnimateIn>
         <h2 className="text-center text-[32px] font-bold leading-[1.2] sm:text-[40px] lg:text-[48px]">
-          Frequently Asked Questions
+          {content.title}
         </h2>
       </AnimateIn>
 
@@ -109,8 +88,8 @@ export const PricingFAQ = () => {
             <FAQItem
               key={idx}
               number={idx + 1}
-              question={faq.q}
-              answer={faq.a}
+              question={faq.question}
+              answer={faq.answer}
               isOpen={openIndex === idx}
               onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
             />
@@ -121,8 +100,8 @@ export const PricingFAQ = () => {
             <FAQItem
               key={idx}
               number={idx + left.length + 1}
-              question={faq.q}
-              answer={faq.a}
+              question={faq.question}
+              answer={faq.answer}
               isOpen={openIndex === idx + left.length}
               onClick={() =>
                 setOpenIndex(

@@ -17,7 +17,6 @@ import UserList from "./pages/users/UserList";
 import Analytics from "./pages/Analytics";
 import ScalingList from "./pages/scaling/ScalingList";
 import IndustryROI from "./pages/IndustryROI";
-import PageContentEditor from "./pages/page-content/PageContentEditor";
 import AuditLogList from "./pages/audit-logs/AuditLogList";
 import ContentList from "./pages/content/ContentList";
 import ContentEditor from "./pages/content/ContentEditor";
@@ -55,11 +54,12 @@ export default function App() {
               <Route path="/scaling" element={<ScalingList />} />
               <Route path="/industry-roi" element={<IndustryROI />} />
               <Route path="/pages/home" element={<Navigate to="/content/home" replace />} />
-              <Route path="/pages/blog" element={<PageContentEditor page="blog" />} />
-              <Route path="/pages/blog_detail" element={<PageContentEditor page="blog_detail" />} />
-              <Route path="/pages/not_found" element={<PageContentEditor page="not_found" />} />
-              <Route path="/pages/privacy" element={<PageContentEditor page="privacy" />} />
-              <Route path="/pages/terms" element={<PageContentEditor page="terms" />} />
+              {/* The old page editor's addresses now open the matching CMS page. */}
+              <Route path="/pages/blog" element={<Navigate to="/content/blog" replace />} />
+              <Route path="/pages/blog_detail" element={<Navigate to="/content/blog" replace />} />
+              <Route path="/pages/not_found" element={<Navigate to="/content/not-found" replace />} />
+              <Route path="/pages/privacy" element={<Navigate to="/content/privacy" replace />} />
+              <Route path="/pages/terms" element={<Navigate to="/content/terms" replace />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

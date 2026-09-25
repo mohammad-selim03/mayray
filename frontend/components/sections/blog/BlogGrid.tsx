@@ -8,14 +8,15 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 
 interface BlogGridProps {
   posts: BlogPostItem[];
+  emptyText: string;
 }
 
-export const BlogGrid: React.FC<BlogGridProps> = ({ posts }) => {
+export const BlogGrid: React.FC<BlogGridProps> = ({ posts, emptyText }) => {
   return (
     <section className="relative z-10 mx-auto mt-[35px] w-full max-w-[1170px] px-4 sm:px-6 lg:px-0">
       {posts.length === 0 ? (
         <p className="rounded-2xl bg-white py-16 text-center text-[16px] text-[#70707b]">
-          No articles found in this category.
+          {emptyText}
         </p>
       ) : (
         <div className="flex flex-col gap-4">
@@ -43,7 +44,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts }) => {
                   </div>
                   <div className="relative aspect-[8/5] w-full shrink-0 overflow-hidden rounded-2xl md:h-[250px] md:w-[400px]">
                     <Image
-                      src={post.image || "/blogs/real-estate-gap.jpg"}
+                      src={post.image}
                       alt={post.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 400px"

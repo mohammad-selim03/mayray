@@ -1,4 +1,4 @@
-// GENERATED FILE: edit frontend/lib/cms/schema and run `pnpm cms:sync`.
+// GENERATED FILE: edit frontend/lib/cms and run `pnpm cms:sync`.
 
 /** Site pages offered by the admin link picker. Blog posts (/blog/...) and #anchors are also valid links. */
 export const SITE_ROUTES = [

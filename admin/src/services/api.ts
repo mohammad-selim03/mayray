@@ -112,14 +112,3 @@ export const uploadApi = {
   },
 };
 
-export const pageContentApi = {
-  getByPage: (page: string) => api.get(`/page-content/${page}`),
-  getByPageAdmin: (page: string) => api.get(`/page-content/${page}/admin`),
-  upsert: (data: { page: string; section: string; key: string; value: string; isActive?: boolean; order?: number }) =>
-    api.post("/page-content", data),
-  bulkUpsert: (items: Array<{ page: string; section: string; key: string; value: string; isActive?: boolean; order?: number }>) =>
-    api.post("/page-content/bulk", { items }),
-  reorder: (items: Array<{ id: string; order: number }>) =>
-    api.post("/page-content/reorder", { items }),
-  remove: (id: string) => api.delete(`/page-content/${id}`),
-};
