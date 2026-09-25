@@ -1,0 +1,338 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  admin
+  editor
+  viewer
+}
+
+enum BlogStatus {
+  draft
+  published
+  scheduled
+}
+
+enum IntegrationCategory {
+  productivity
+  communication
+  crm
+  storage
+  analytics
+  other
+}
+
+enum FeatureGroup {
+  A
+  A2
+  B
+}
+
+enum UseCaseCategory {
+  marketing
+  sales
+  operations
+  customer_experience
+  finance
+  it
+  hr
+  productivity
+}
+
+enum ContactType {
+  contact
+  health_check
+  support
+}
+
+enum ContactStatus {
+  new
+  read
+  replied
+  archived
+}
+
+enum HealthCheckStatus {
+  pending
+  reviewed
+  completed
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      UserRole  @default(editor)
+  isActive  Boolean   @default(true)
+  lastLogin DateTime?
+  avatar    String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  blogs Blog[]
+
+  @@map("users")
+}
+
+model Blog {
+  id              String     @id @default(cuid())
+  title           String
+  slug            String     @unique
+  excerpt         String
+  content         String
+  image           String?
+  author          String     @default("Mayray AI Team")
+  category        String     @default("AI Automation")
+  readTime        String     @default("5 min read")
+  tags            String[]
+  status          BlogStatus @default(draft)
+  publishedAt     DateTime?
+  scheduledAt     DateTime?
+  views           Int        @default(0)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  createdBy       User?      @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdById     String?
+
+  @@map("blogs")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  quote     String
+  name      String
+  role      String
+  company   String?
+  avatar    String?
+  rating    Int      @default(5)
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+model Integration {
+  id          String              @id @default(cuid())
+  name        String              @unique
+  logo        String?
+  description String?
+  category    IntegrationCategory @default(other)
+  isActive    Boolean             @default(true)
+  order       Int                 @default(0)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@map("integrations")
+}
+
+model Feature {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  videoUrl    String?
+  thumbnail   String?
+  apps        String[]
+  group       FeatureGroup @default(A)
+  isActive    Boolean      @default(true)
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("features")
+}
+
+model UseCase {
+  id          String          @id @default(cuid())
+  title       String
+  description String
+  icon        String?
+  category    UseCaseCategory
+  isActive    Boolean         @default(true)
+  order       Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@map("use_cases")
+}
+
+model Contact {
+  id        String        @id @default(cuid())
+  email     String
+  name      String
+  message   String?
+  type      ContactType   @default(contact)
+  status    ContactStatus @default(new)
+  ipAddress String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("contacts")
+}
+
+model Newsletter {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  isActive       Boolean   @default(true)
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+  source         String    @default("website")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@map("newsletters")
+}
+
+model HealthCheck {
+  id                 String            @id @default(cuid())
+  email              String
+  company            String?
+  industry           String?
+  processDescription String?
+  assessmentId       String            @unique
+  estimatedSavings   Float?
+  recommendations    String[]
+  status             HealthCheckStatus @default(pending)
+  notes              String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@map("health_checks")
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model FaqItem {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faq_items")
+}
+
+model ScalingStep {
+  id        String   @id @default(cuid())
+  step      String
+  title     String
+  body      String
+  icon      String?
+  isCard    Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("scaling_steps")
+}
+
+model IndustryROI {
+  id        String   @id @default(cuid())
+  industry  String   @unique
+  cvr       String
+  showUp    String
+  image     String?
+  useCases  String[]
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("industry_roi")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  resource   String
+  resourceId String?
+  details    Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model PageContent {
+  id        String   @id @default(cuid())
+  page      String
+  section   String
+  key       String
+  value     String
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([page, section, key])
+  @@map("page_content")
+}
+
+enum MediaKind {
+  image
+  video
+  audio
+}
+
+model CmsDocument {
+  key         String       @id
+  data        Json
+  version     Int          @default(0)
+  updatedAt   DateTime     @updatedAt
+  updatedById String?
+  versions    CmsVersion[]
+
+  @@map("cms_documents")
+}
+
+model CmsVersion {
+  id           String      @id @default(cuid())
+  documentKey  String
+  document     CmsDocument @relation(fields: [documentKey], references: [key], onDelete: Cascade)
+  version      Int
+  data         Json
+  restoredFrom Int?
+  createdById  String?
+  createdAt    DateTime    @default(now())
+
+  @@unique([documentKey, version])
+  @@map("cms_versions")
+}
+
+model Media {
+  id           String    @id @default(cuid())
+  path         String    @unique
+  url          String
+  filename     String
+  mimeType     String
+  size         Int
+  kind         MediaKind
+  width        Int?
+  height       Int?
+  alt          String    @default("")
+  uploadedById String?
+  createdAt    DateTime  @default(now())
+
+  @@index([kind, createdAt])
+  @@map("media")
+}

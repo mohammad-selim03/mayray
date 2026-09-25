@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s --max-time 15 http://localhost:3000/)",
+      "PowerShell($c = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($c\\) { $c.OwningProcess | Sort-Object -Unique | ForEach-Object { if \\($_ -ne 0\\) { Stop-Process -Id $_ -Force; Write-Output \"killed $_\" } } } else { Write-Output \"3000 free\" })",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" --max-time 20 http://localhost:3000/)",
+      "Bash(curl -s --max-time 20 http://localhost:3000/ -H \"Cache-Control: no-cache\")",
+      "Bash(curl -s --max-time 60 http://localhost:3000/)"
+    ]
+  }
+}
