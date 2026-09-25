@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/* Smooth scrolling is handled by Lenis (SmoothScroll); CSS smooth-scroll here
+   fights it and adds jank, so it's intentionally omitted. */
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #1c1917;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-jakarta: var(--font-plus-jakarta), "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+}
