@@ -23,7 +23,7 @@ export const Hero = ({ content }: { content: HomeHeroContent }) => {
 
   return (
     <>
-    <section id="hero" className="relative min-h-[620px]">
+    <section id="hero" className="relative isolate min-h-[620px]">
       <div className="absolute inset-0 -z-10 -top-20">
         <Image
           src={content.background?.url ?? "/assets/herobg.png"}
@@ -32,7 +32,7 @@ export const Hero = ({ content }: { content: HomeHeroContent }) => {
           fetchPriority="high"
           sizes="100vw"
           unoptimized={content.background?.url.endsWith(".svg")}
-          className="object- object-top"
+          className="object-cover object-top"
           alt={content.background?.alt ?? ""}
         />
       </div>

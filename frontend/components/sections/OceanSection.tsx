@@ -1,6 +1,5 @@
 "use client";
-
-import React from "react";
+ 
 import { AnimateIn } from "../ui/AnimateIn";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -11,7 +10,7 @@ export const OceanSection = ({ content }: { content: HomeOceanContent }) => {
   const avatars = content.avatars.flatMap((a) => (a.photo ? [a.photo] : []));
 
   return (
-    <section className="relative overflow-hidden pt-32 pb-24 lg:pt-40 lg:pb-32">
+    <section className="relative overflow-hidden pt-32 pb-24 lg:pt-40 lg:pb-32 pt-10">
       {/* Background Image with 180 deg rotation as requested */}
       <div className="absolute inset-0 z-0">
         <Image

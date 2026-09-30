@@ -17,7 +17,7 @@ export const AgentAreas = ({ content }: { content: HomeAgentAreasContent }) => {
   }));
 
   return (
-    <section id="use-cases" className="mx-auto mt-28 w-full max-w-[1170px] scroll-mt-28 px-4 sm:px-6 lg:px-0">
+    <section id="use-cases" className="mx-auto py-28 w-full max-w-[1170px] scroll-mt-28 px-4 sm:px-6 lg:px-0">
       <AnimateIn>
         <h2 className="mx-auto max-w-[800px] text-center text-[32px] font-semibold leading-[1.2] sm:text-[40px] lg:text-[48px]">
           {headline}

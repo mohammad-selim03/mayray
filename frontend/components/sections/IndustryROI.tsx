@@ -4,9 +4,38 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Button, ButtonLink } from "../ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowUp,
+  CalendarCheck,
+  ClipboardList,
+  FileCheck,
+  FileText,
+  Filter,
+  Headphones,
+  Phone,
+  RefreshCw,
+  ShieldCheck,
+  UserPlus,
+  type LucideIcon,
+} from "lucide-react";
 import { AnimateIn } from "../ui/AnimateIn";
 import { useSiteData } from "../../lib/SiteDataContext";
 import type { HomeIndustryRoiContent } from "../../lib/cms/schema/documents/pages/home";
+
+// A leading icon per use-case pill, matched on keywords (matches the Figma for the Car tab and
+// stays sensible for the other industries).
+const USE_CASE_ICONS: { match: RegExp; icon: LucideIcon }[] = [
+  { match: /lead|qualif|inquir/i, icon: Filter },
+  { match: /support/i, icon: Headphones },
+  { match: /appoint|schedul|tour|reminder|confirm/i, icon: CalendarCheck },
+  { match: /follow|onboard/i, icon: UserPlus },
+  { match: /conflict|check|compliance/i, icon: ShieldCheck },
+  { match: /quote/i, icon: FileText },
+  { match: /claim|process/i, icon: RefreshCw },
+  { match: /intake|case/i, icon: ClipboardList },
+  { match: /call|phone/i, icon: Phone },
+];
+const iconFor = (name: string): LucideIcon => USE_CASE_ICONS.find((u) => u.match.test(name))?.icon ?? FileCheck;
 
 export const IndustryROI = ({ content }: { content: HomeIndustryRoiContent }) => {
   const headline = content.title;
@@ -60,25 +89,30 @@ export const IndustryROI = ({ content }: { content: HomeIndustryRoiContent }) =>
           <div className="flex flex-col justify-center">
             <p className="text-[18px] leading-[1.5] text-[#44403c] sm:text-[24px]">{content.useCasesLabel}</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              {data.useCases.map((useCase, idx) => (
-                <motion.span
-                  key={useCase}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-lg text-[#44403c] shadow-sm border border-black/5"
-                >
-                  {useCase}
-                </motion.span>
-              ))}
+              {data.useCases.map((useCase, idx) => {
+                const Icon = iconFor(useCase);
+                return (
+                  <motion.span
+                    key={useCase}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-lg text-[#44403c] shadow-sm border border-black/5"
+                  >
+                    <Icon className="size-[18px] shrink-0 text-[#70707b]" strokeWidth={1.6} />
+                    {useCase}
+                  </motion.span>
+                );
+              })}
             </div>
             <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               <div>
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-[48px] leading-none text-[#44403c] font-bold sm:text-[64px]"
+                  className="flex items-start gap-1 whitespace-nowrap text-[48px] leading-none text-[#44403c] font-bold sm:text-[64px]"
                 >
+                  <ArrowUp className="mt-1 size-7 shrink-0 text-[#22c55e] sm:size-9" strokeWidth={2.5} />
                   {data?.cvr}
                 </motion.p>
                 <p className="mt-2 text-xl text-[#4a5565]">{content.cvrLabel}</p>
@@ -87,8 +121,9 @@ export const IndustryROI = ({ content }: { content: HomeIndustryRoiContent }) =>
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-[48px] leading-none text-[#44403c] font-bold sm:text-[64px]"
+                  className="flex items-start gap-1 whitespace-nowrap text-[48px] leading-none text-[#44403c] font-bold sm:text-[64px]"
                 >
+                  <ArrowUp className="mt-1 size-7 shrink-0 text-[#22c55e] sm:size-9" strokeWidth={2.5} />
                   {data?.showUp}
                 </motion.p>
                 <p className="mt-2 text-xl text-[#4a5565]">{content.showUpLabel}</p>
