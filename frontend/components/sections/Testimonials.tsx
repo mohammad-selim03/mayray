@@ -22,14 +22,7 @@ export const Testimonials = ({ content }: { content: HomeTestimonialsContent }) 
 
   return (
     <section className="mx-auto mt-28 w-full max-w-[1170px] px-4 sm:px-6 lg:px-0">
-      <div className="grid gap-10 md:grid-cols-[280px_1fr] lg:grid-cols-[400px_1fr] items-start md:gap-12 lg:gap-20">
-        <div className="lg:sticky lg:top-32">
-          <AnimateIn direction="right">
-            <h2 className="text-[36px] font-bold leading-[1.1] tracking-tight sm:text-[42px] lg:text-[64px]">
-              {headline}
-            </h2>
-          </AnimateIn>
-        </div>
+      <div className="grid gap-10 md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_400px] items-start md:gap-12 lg:gap-20">
         <div className="space-y-6">
           {items.map((t, idx) => (
             <AnimateIn key={t.name} delay={idx * 0.1} direction="up">
@@ -64,6 +57,13 @@ export const Testimonials = ({ content }: { content: HomeTestimonialsContent }) 
               </motion.article>
             </AnimateIn>
           ))}
+        </div>
+        <div className="order-first lg:sticky lg:top-32 md:order-last">
+          <AnimateIn direction="left">
+            <h2 className="text-[36px] font-bold leading-[1.1] tracking-tight sm:text-[42px] lg:text-[64px]">
+              {headline}
+            </h2>
+          </AnimateIn>
         </div>
       </div>
     </section>

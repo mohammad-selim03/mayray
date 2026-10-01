@@ -2,22 +2,28 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { AnimateIn } from "../ui/AnimateIn";
 import type { FaqContent } from "../../lib/cms/schema/blocks/industry";
 
-const FAQItem = ({ question, answer, isOpen, onClick }: {
+const FAQItem = ({ number, question, answer, isOpen, onClick }: {
+  number: number;
   question: string;
   answer: string;
   isOpen: boolean;
   onClick: () => void;
 }) => (
-  <article className={`rounded-3xl border transition-all duration-300 ${isOpen ? "border-[#d4c1fe] bg-[#f7f4fe]" : "border-transparent bg-white"} p-6 shadow-sm`}>
-    <button onClick={onClick} className="flex w-full items-center justify-between text-left">
-      <h3 className="text-[16px] font-semibold text-[#44403c] sm:text-[18px]">{question}</h3>
-      <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
-        <ChevronDown className="size-5 text-[#44403c]" />
-      </motion.div>
+  <article className={`rounded-3xl border transition-all duration-300 ${isOpen ? "border-[#cfe6f6] bg-[#eef6fc]" : "border-transparent bg-white"} p-6 shadow-sm`}>
+    <button onClick={onClick} className="flex w-full items-center gap-4 text-left">
+      <span className={`flex size-10 shrink-0 items-center justify-center rounded-full text-[14px] font-semibold text-[#44403c] ${isOpen ? "bg-white" : "bg-[#f4f4f5]"}`}>
+        {String(number).padStart(2, "0")}
+      </span>
+      <h3 className="flex-1 text-[16px] font-semibold text-[#44403c] sm:text-[18px]">{question}</h3>
+      {isOpen ? (
+        <X className="size-5 shrink-0 text-[#ff5c35]" />
+      ) : (
+        <Plus className="size-5 shrink-0 text-[#44403c]" />
+      )}
     </button>
     <AnimatePresence>
       {isOpen && (
@@ -28,7 +34,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }: {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="overflow-hidden"
         >
-          <p className="mt-3 text-[15px] leading-[1.5] text-[#44403c] sm:text-[16px]">{answer}</p>
+          <p className="ml-14 mt-3 text-[15px] leading-[1.5] text-[#44403c] sm:text-[16px]">{answer}</p>
         </motion.div>
       )}
     </AnimatePresence>
@@ -54,6 +60,7 @@ export const FAQ = ({ content }: { content: FaqContent }) => {
           {left.map((faq, idx) => (
             <FAQItem
               key={idx}
+              number={idx + 1}
               question={faq.question}
               answer={faq.answer}
               isOpen={openIndex === idx}
@@ -65,6 +72,7 @@ export const FAQ = ({ content }: { content: FaqContent }) => {
           {right.map((faq, idx) => (
             <FAQItem
               key={idx + left.length}
+              number={idx + left.length + 1}
               question={faq.question}
               answer={faq.answer}
               isOpen={openIndex === idx + left.length}
