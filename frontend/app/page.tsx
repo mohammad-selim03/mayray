@@ -33,7 +33,7 @@ const CtaV2 = dynamic(() => import("../components/sections/v2/CtaV2").then((m) =
 export default async function Home() {
   const [siteData, content] = await Promise.all([getSiteData(), getCmsDocument("home")]);
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#F5F5F4]">
       <SiteDataProvider value={siteData}>
         <div>
           <Navbar />
