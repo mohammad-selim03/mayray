@@ -24,7 +24,7 @@ export const Hero = ({ content }: { content: HomeHeroContent }) => {
   return (
     <>
     <section id="hero" className="relative isolate min-h-[820px]">
-      <div className="absolute inset-0 -z-10 -top-50">
+      <div className="absolute inset-0 -z-10 -top-190">
         <Image
           src={content.background?.url ?? "/assets/herobg.png"}
           fill

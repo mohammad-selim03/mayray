@@ -46,6 +46,7 @@ export const VoiceAgents = ({ content }: { content: HomeVoiceAgentsContent }) =>
   const cardElementsRef = useRef(new Map<string, HTMLElement>());
   const selectedIdRef = useRef(selectedId);
   const programmaticScrollUntilRef = useRef(0);
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
 
   const selectedScenario = useMemo(
     () =>
@@ -287,6 +288,12 @@ export const VoiceAgents = ({ content }: { content: HomeVoiceAgentsContent }) =>
                   {isActive ? (
                     <div className="flex h-full flex-row">
                       <motion.video
+                        ref={(el) => {
+                          if (el) {
+                            videoRefs.current[scenario.id] = el;
+                            el.play().catch(() => {});
+                          }
+                        }}
                         className="h-full w-[33.2%] min-w-[208px] object-cover object-center"
                         initial={{ opacity: 0.8, scale: 1.04 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -361,12 +368,25 @@ export const VoiceAgents = ({ content }: { content: HomeVoiceAgentsContent }) =>
                   ) : (
                     <>
                       <video
+                        ref={(el) => {
+                          if (el) videoRefs.current[scenario.id] = el;
+                        }}
                         className="absolute inset-0 h-full w-full object-cover object-center transition-all duration-500 group-hover:scale-[1.03]"
                         src={scenario.video}
-                        autoPlay
                         loop
                         muted
                         playsInline
+                        onMouseEnter={() => {
+                          const video = videoRefs.current[scenario.id];
+                          if (video) video.play();
+                        }}
+                        onMouseLeave={() => {
+                          const video = videoRefs.current[scenario.id];
+                          if (video && scenario.id !== selectedId) {
+                            video.pause();
+                            video.currentTime = 0;
+                          }
+                        }}
                       />
                       <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(19,24,37,0)_35%,rgba(20,25,37,0.55)_100%)] opacity-95 transition-opacity duration-400" />
                     </>
@@ -407,6 +427,12 @@ export const VoiceAgents = ({ content }: { content: HomeVoiceAgentsContent }) =>
                       }}
                     >
                       <motion.video
+                        ref={(el) => {
+                          if (el) {
+                            videoRefs.current[scenario.id] = el;
+                            el.play().catch(() => {});
+                          }
+                        }}
                         className="h-44 w-full shrink-0 object-cover object-top sm:h-full sm:w-[36%] sm:object-center"
                         animate={{ opacity: 1, scale: 1 }}
                         initial={{ opacity: 0.8, scale: 1.04 }}
@@ -489,6 +515,17 @@ export const VoiceAgents = ({ content }: { content: HomeVoiceAgentsContent }) =>
                       setProgress(0);
                       stopPlayback();
                     }}
+                    onMouseEnter={() => {
+                      const video = videoRefs.current[scenario.id];
+                      if (video) video.play();
+                    }}
+                    onMouseLeave={() => {
+                      const video = videoRefs.current[scenario.id];
+                      if (video && scenario.id !== selectedId) {
+                        video.pause();
+                        video.currentTime = 0;
+                      }
+                    }}
                     ref={(el: HTMLElement | null) => {
                       if (el) {
                         el.dataset.scenarioId = scenario.id;
@@ -509,10 +546,12 @@ export const VoiceAgents = ({ content }: { content: HomeVoiceAgentsContent }) =>
                     }}
                   >
                     <video
+                      ref={(el) => {
+                        if (el) videoRefs.current[scenario.id] = el;
+                      }}
                       aria-hidden="true"
                       className="absolute inset-0 h-full w-full object-cover object-center transition-all duration-500 group-hover:scale-[1.03]"
                       src={scenario.video}
-                      autoPlay
                       loop
                       muted
                       playsInline
