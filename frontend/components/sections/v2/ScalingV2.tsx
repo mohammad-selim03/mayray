@@ -53,38 +53,36 @@ export const ScalingV2 = ({ content }: { content: HomeScalingContent }) => {
           <p className="mt-4 max-w-[648px] text-[15px] leading-[1.6] text-white/90 sm:text-[16px]">{description}</p>
         </AnimateIn>
 
-        {/* Timeline (desktop only) */}
-        <div className="relative mt-12 hidden lg:block" aria-hidden>
-          <div className="relative h-[19px] w-full">
+        {/* Step cards, with the timeline (desktop only) running through the centre of the step pills */}
+        <div className="relative mt-12">
+          <div className="absolute inset-x-0 top-[6px] z-0 hidden h-[19px] lg:block" aria-hidden>
             <div className="absolute left-[9px] right-[9px] top-1/2 h-px -translate-y-1/2 bg-white" />
             <span className="absolute left-0 top-1/2 h-0 w-0 -translate-y-1/2 border-y-[8px] border-r-[13px] border-y-transparent border-r-white" />
             <span className="absolute right-0 top-1/2 h-0 w-0 -translate-y-1/2 border-y-[8px] border-l-[13px] border-y-transparent border-l-white" />
           </div>
-        </div>
-
-        {/* Step cards */}
-        <div className="mt-6 grid gap-[30px] sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, idx) => (
-            <AnimateIn key={step.id} delay={idx * 0.1} direction="up" className="h-full">
-              <div className="flex h-full flex-col gap-6">
-                <span
-                  className={`flex w-[86px] items-center justify-center gap-2 self-center rounded-full px-[11px] py-1.5 text-[16px] ${
-                    idx === 2 ? "bg-[#13a0e7] text-white" : "bg-white text-[#18181b]"
-                  }`}
-                >
-                  <span>Step</span>
-                  <span>{step.step}</span>
-                </span>
-                <div className={`flex min-h-[250px] flex-col gap-4 ${CARD}`}>
-                  <GlassIcon name={STEP_ICONS[idx] ?? STEP_ICONS[0]} boxed={STEP_ICON_BOXED[idx]} />
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-[18px] font-semibold leading-tight">{step.title}</h3>
-                    <p className="text-[15px] leading-[1.5] text-white/90">{step.body}</p>
+          <div className="relative z-10 grid gap-[30px] sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((step, idx) => (
+              <AnimateIn key={step.id} delay={idx * 0.1} direction="up" className="h-full">
+                <div className="flex h-full flex-col gap-6 lg:gap-12">
+                  <span
+                    className={`flex w-[86px] items-center justify-center gap-2 self-center rounded-full px-[11px] py-1.5 text-[16px] leading-[19px] ${
+                      idx === 2 ? "bg-[#13a0e7] text-white" : "bg-white text-[#18181b]"
+                    }`}
+                  >
+                    <span>Step</span>
+                    <span>{step.step}</span>
+                  </span>
+                  <div className={`flex min-h-[250px] flex-col gap-4 ${CARD}`}>
+                    <GlassIcon name={STEP_ICONS[idx] ?? STEP_ICONS[0]} boxed={STEP_ICON_BOXED[idx]} />
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-[18px] font-semibold leading-tight">{step.title}</h3>
+                      <p className="text-[15px] leading-[1.5] text-white/90">{step.body}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </AnimateIn>
-          ))}
+              </AnimateIn>
+            ))}
+          </div>
         </div>
 
         {/* Wide cards */}
